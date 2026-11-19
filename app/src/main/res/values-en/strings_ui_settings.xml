@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="set_language_restart_note">Switching language reloads the screen.</string>
+    <string name="set_backup_local_only_note">Your data stays on this device. Export a backup regularly.</string>
+</resources>

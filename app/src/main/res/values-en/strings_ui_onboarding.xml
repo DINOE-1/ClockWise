@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Onboarding, set as the first pages of a printed manual. -->
+<resources>
+    <string name="onb_page_fraction">%1$d / %2$d</string>
+    <string name="onb_setup_body">Set the language and the look first. Both can be changed later in Settings.</string>
+    <string name="onb_palette_enamel">Enamel</string>
+    <string name="onb_palette_graphite">Graphite</string>
+    <string name="onb_palette_gruvbox">Gruvbox</string>
+    <string name="onb_alarm_body">Alarms are listed by time. Tap one to edit it, hold to select several, or use the switch on the right to turn one off.</string>
+    <string name="onb_ai_prompt">Book the design sync for Thursday at ten</string>
+    <string name="onb_ai_pending">Pending</string>
+</resources>

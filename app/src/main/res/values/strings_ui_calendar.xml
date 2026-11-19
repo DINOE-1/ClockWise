@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Calendar: the empty selected-day list invites the next action rather than stating a fact. -->
+    <string name="cal_empty_day_body">新增活動，開始安排這一天。</string>
+    <string name="cal_picker_next">下一步</string>
+    <!-- Week view: a day column's all-day band holds two pills; the rest collapse into a count. -->
+    <string name="cal_more_events">+%1$d</string>
+</resources>

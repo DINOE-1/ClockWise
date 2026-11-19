@@ -1,0 +1,6 @@
+<resources>
+    <!-- Dark counterpart of the platform theme; app colours come from Compose. -->
+    <style name="Theme.Clockwise" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#14181A</item>
+    </style>
+</resources>

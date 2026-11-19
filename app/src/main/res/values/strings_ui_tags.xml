@@ -1,0 +1,8 @@
+<resources>
+    <plurals name="tag_ui_count">
+        <item quantity="other">共 %1$d 個標籤</item>
+    </plurals>
+    <string name="tag_ui_empty_body">建立標籤，把活動與鬧鐘分組。例如「工作」或「個人」。</string>
+    <string name="tag_ui_color_none">不指定顏色</string>
+    <string name="tag_ui_color_option">顏色 %1$d</string>
+</resources>

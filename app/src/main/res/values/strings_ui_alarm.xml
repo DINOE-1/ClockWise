@@ -1,0 +1,5 @@
+<resources>
+    <!-- 鬧鐘頁面新增的文案；其餘鬧鐘字串仍沿用 strings.xml。 -->
+    <string name="alarm_enabled_count">已啟用 %1$d 個鬧鐘</string>
+    <string name="alarm_empty_body">新增鬧鐘後，時間到了就會提醒你。</string>
+</resources>

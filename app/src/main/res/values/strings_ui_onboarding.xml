@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Onboarding, set as the first pages of a printed manual. -->
+<resources>
+    <string name="onb_page_fraction">%1$d / %2$d</string>
+    <string name="onb_setup_body">先選定語言與外觀，之後都能在設定裡更改。</string>
+    <string name="onb_palette_enamel">琺瑯白</string>
+    <string name="onb_palette_graphite">石墨夜</string>
+    <string name="onb_palette_gruvbox">Gruvbox</string>
+    <string name="onb_alarm_body">鬧鐘按時間排成一列。點一下編輯，長按進入多選，右側開關可暫時停用。</string>
+    <string name="onb_ai_prompt">週四早上十點幫我排設計同步會議</string>
+    <string name="onb_ai_pending">待確認</string>
+</resources>

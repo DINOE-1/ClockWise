@@ -1,0 +1,13 @@
+<resources>
+    <!-- AI chat screen: structural labels the shared strings.xml does not carry. -->
+    <string name="ai_ui_more_actions">更多操作</string>
+    <string name="ai_ui_examples">範例</string>
+    <string name="ai_ui_proposal_pending">待確認</string>
+    <string name="ai_ui_usage_input">輸入</string>
+    <string name="ai_ui_usage_output">輸出</string>
+    <string name="ai_ui_usage_cached">其中快取</string>
+    <string name="ai_ui_usage_reasoning">其中推理</string>
+    <string name="ai_ui_usage_requests">請求次數</string>
+    <string name="ai_ui_usage_cache_rate">快取命中率</string>
+    <string name="ai_ui_usage_tokens">%1$s tokens</string>
+</resources>

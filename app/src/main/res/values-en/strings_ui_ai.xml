@@ -1,0 +1,13 @@
+<resources>
+    <!-- AI chat screen: structural labels the shared strings.xml does not carry. -->
+    <string name="ai_ui_more_actions">More actions</string>
+    <string name="ai_ui_examples">Examples</string>
+    <string name="ai_ui_proposal_pending">Pending</string>
+    <string name="ai_ui_usage_input">Input</string>
+    <string name="ai_ui_usage_output">Output</string>
+    <string name="ai_ui_usage_cached">Cached</string>
+    <string name="ai_ui_usage_reasoning">Reasoning</string>
+    <string name="ai_ui_usage_requests">Requests</string>
+    <string name="ai_ui_usage_cache_rate">Cache hit rate</string>
+    <string name="ai_ui_usage_tokens">%1$s tokens</string>
+</resources>

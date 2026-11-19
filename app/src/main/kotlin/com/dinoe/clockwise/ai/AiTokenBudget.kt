@@ -1,0 +1,121 @@
+package com.dinoe.clockwise.ai
+
+/**
+ * Conservative, tokenizer-free budget estimates. The goal is to cap context growth, not to match
+ * a provider's tokenizer exactly: CJK characters count as one token, other characters as one
+ * quarter token, plus a small per-message overhead.
+ */
+object AiTokenBudget {
+    const val MAX_STATIC_TOKENS = 4_000
+    const val MAX_DYNAMIC_TOKENS = 700
+    const val MAX_HISTORY_TOKENS = 4_000
+    const val MAX_CURRENT_TOOL_TOKENS = 2_400
+    const val MAX_TOOL_RESULT_TOKENS = 1_200
+    const val MAX_INPUT_TOKENS = 8_000
+
+    /** Hard input cap used when the selected model's context length is unknown. */
+    const val HARD_INPUT_TOKENS = 12_000
+    const val OUTPUT_RESERVE_TOKENS = 4_096
+    const val CONTEXT_SAFETY_MARGIN_TOKENS = 512
+    const val MIN_DERIVED_INPUT_TOKENS = 1_024
+    const val MAX_DERIVED_INPUT_TOKENS = 32_000
+    const val MAX_TOOL_ROUNDS = 5
+    const val MAX_BATCH_ITEMS = 30
+    const val MAX_RECURRING_OCCURRENCES = 180
+    const val MAX_TOTAL_OCCURRENCES = 200
+    const val MAX_TOTAL_AFFECTED = 300
+    const val MAX_USER_CHARS = 2_000
+    const val MAX_COMPLETED_TURNS = 6
+    const val MAX_ACTIONS = 6
+    const val COMPLETED_ASSISTANT_CHARS = 800
+    const val COMPLETED_REASONING_CHARS = 1_200
+    const val MAX_TURN_REASONING_CHARS = 4_000
+
+    /** Conservative per-image cost for a downscaled photo, in tokens. */
+    const val IMAGE_INPUT_TOKENS = 1_100
+
+    /** Smallest payload worth emitting: the JSON envelope of a tool result without items. */
+    const val MIN_TOOL_RESULT_TOKENS = 32
+
+    private const val MESSAGE_OVERHEAD_TOKENS = 4
+
+    fun estimateTokens(text: String?): Int {
+        if (text.isNullOrEmpty()) return 0
+        var cjk = 0
+        var other = 0
+        for (char in text) {
+            if (isCjk(char.code)) cjk++ else other++
+        }
+        return cjk + (other + 3) / 4
+    }
+
+    fun estimateMessageTokens(
+        content: String?,
+        toolCallTokens: Int = 0,
+        imageCount: Int = 0,
+    ): Int = MESSAGE_OVERHEAD_TOKENS +
+        estimateTokens(content) +
+        toolCallTokens +
+        imageCount * IMAGE_INPUT_TOKENS
+
+    /**
+     * Input budget for one request. Known model context lengths are reduced by the output reserve
+     * and a tokenizer safety margin; the result is clamped so a huge advertised context cannot
+     * produce an unbounded request and a tiny context cannot go below a usable floor. Unknown
+     * models keep the conservative legacy cap.
+     */
+    fun inputBudgetFor(modelContextLength: Long?): Int {
+        val context = modelContextLength?.takeIf { it > 0 } ?: return HARD_INPUT_TOKENS
+        val minimumInput = MIN_DERIVED_INPUT_TOKENS.toLong()
+            .coerceAtMost((context - CONTEXT_SAFETY_MARGIN_TOKENS).coerceAtLeast(0))
+        // Do not reserve more output tokens than the model can hold alongside the minimum usable
+        // input and safety margin. This keeps input + output within a 4k model's context instead
+        // of blindly reserving 4096 output tokens.
+        val outputReserve = OUTPUT_RESERVE_TOKENS.toLong()
+            .coerceAtMost(context - minimumInput - CONTEXT_SAFETY_MARGIN_TOKENS)
+            .coerceAtLeast(0)
+        val usable = context - outputReserve - CONTEXT_SAFETY_MARGIN_TOKENS
+        return usable
+            .coerceIn(0L, MAX_DERIVED_INPUT_TOKENS.toLong())
+            .toInt()
+    }
+
+    fun truncateToTokens(text: String, maxTokens: Int): String {
+        if (maxTokens <= 0) return ""
+        if (estimateTokens(text) <= maxTokens) return text
+        val builder = StringBuilder()
+        var tokens = 0.0
+        for (char in text) {
+            val cost = if (isCjk(char.code)) 1.0 else 0.25
+            if (tokens + cost > maxTokens) break
+            builder.append(char)
+            tokens += cost
+        }
+        return builder.toString()
+    }
+
+    fun truncateChars(text: String, maxChars: Int): String =
+        if (text.length <= maxChars) text else text.take(maxChars)
+
+    /**
+     * Tokens still available for one tool result payload: the aggregate current-turn budget minus
+     * the payloads already appended to the turn, capped by the per-result limit. Never returns
+     * less than [MIN_TOOL_RESULT_TOKENS], so a tool call always gets an answerable result.
+     */
+    fun toolResultAllowance(
+        usedTokens: Int,
+        perResultLimit: Int = MAX_TOOL_RESULT_TOKENS,
+        aggregateLimit: Int = MAX_CURRENT_TOOL_TOKENS,
+    ): Int {
+        val remaining = aggregateLimit - usedTokens.coerceAtLeast(0)
+        val ceiling = perResultLimit.coerceAtLeast(MIN_TOOL_RESULT_TOKENS)
+        return remaining.coerceIn(MIN_TOOL_RESULT_TOKENS, ceiling)
+    }
+
+    private fun isCjk(code: Int): Boolean =
+        code in 0x2E80..0x9FFF ||
+            code in 0xF900..0xFAFF ||
+            code in 0xFE30..0xFE4F ||
+            code in 0xFF00..0xFFEF ||
+            code in 0x20000..0x2FA1F
+}

@@ -1,0 +1,9 @@
+<resources>
+    <plurals name="tag_ui_count">
+        <item quantity="one">%1$d tag</item>
+        <item quantity="other">%1$d tags</item>
+    </plurals>
+    <string name="tag_ui_empty_body">Make a tag to group events and alarms, like work or personal.</string>
+    <string name="tag_ui_color_none">No color</string>
+    <string name="tag_ui_color_option">Color %1$d</string>
+</resources>

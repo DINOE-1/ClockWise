@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="set_language_restart_note">切換語言後，畫面會重新載入。</string>
+    <string name="set_backup_local_only_note">資料只留在這台裝置上，請定期匯出備份。</string>
+</resources>

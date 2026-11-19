@@ -1,0 +1,6 @@
+<resources>
+    <!-- AI proposal editors and AI settings: the labels this redesign added. -->
+    <string name="ai_edit_providers">Providers</string>
+    <string name="ai_edit_model_count">%1$d models</string>
+    <string name="ai_edit_key_keep">Leave blank to keep the stored key.</string>
+</resources>

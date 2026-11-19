@@ -1,0 +1,5 @@
+<resources>
+    <!-- Strings added by the alarm screen rebuild; the rest of the alarm copy lives in strings.xml. -->
+    <string name="alarm_enabled_count">%1$d enabled</string>
+    <string name="alarm_empty_body">Add an alarm and it rings when its time comes.</string>
+</resources>
